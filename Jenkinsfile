@@ -43,10 +43,19 @@ stages {
             sh "sbt 'testOnly -- -n Slow'"
         }
     }
+    stage('Package') {
+        //when {
+        //    branch 'master'
+        //}
+        steps {
+            sh "sbt package"
+        }
+    }
 }
 post {
     always {
-junit 'target/junit/**/*.xml'
+    junit 'target/junit/**/*.xml'
+        archiveArtifacts 'target/**/*.jar'
     }
 }    
 }
