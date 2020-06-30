@@ -21,11 +21,21 @@ spec:
 """
         }
     }
-    stages {
-        stage('Compile') {
-            steps {
-                sh 'sbt compile'
-            }
+stages {
+    stage('Compile') {
+        steps {
+            sh 'sbt compile'
         }
     }
+    stage('Unit Tests') {
+        steps {
+            sh "sbt 'testOnly -- -n UnitTest'"
+        }
+    }
+}
+post {
+    always {
+junit 'target/junit/**/*.xml'
+    }
+}    
 }
